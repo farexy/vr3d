@@ -24,8 +24,8 @@ public class MazeSpawner : MonoBehaviour {
     public GameObject Door = null;
     public GameObject Key = null;
 
-	public int Rows = 5;
-	public int Columns = 5;
+	public int Rows = 10;
+	public int Columns = 10;
 	public float CellWidth = 5;
 	public float CellHeight = 5;
 	public bool AddGaps = true;
