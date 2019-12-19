@@ -22,8 +22,8 @@ public class MazeSecond : MonoBehaviour {
     public GameObject Door = null;
     public GameObject Key = null;
 
-	public int Rows = 5;
-	public int Columns = 5;
+	public int Rows = 25;
+	public int Columns = 25;
 	public float CellWidth = 5;
 	public float CellHeight = 5;
 	public bool AddGaps = true;

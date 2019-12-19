@@ -11,7 +11,7 @@ public class BasicUI : MonoBehaviour {
         int width = 80;
         int height = 50;
         int buffer = 10;
-
+        
         List<string> itemList = Managers.Inventory.GetItemList();
         if (itemList.Count == 0)
         {

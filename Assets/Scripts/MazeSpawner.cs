@@ -24,10 +24,10 @@ public class MazeSpawner : MonoBehaviour {
     public GameObject Door = null;
     public GameObject Key = null;
 
-	public int Rows = 10;
-	public int Columns = 10;
-	public float CellWidth = 5;
-	public float CellHeight = 5;
+	public int Rows = 200;
+	public int Columns = 200;
+	public const float CellWidth = 5;
+	public const float CellHeight = 5;
 	public bool AddGaps = true;
 	public GameObject Bad = null;
     public GameObject Stretcher = null;
@@ -38,6 +38,12 @@ public class MazeSpawner : MonoBehaviour {
     public GameObject Bucky = null;
     public GameObject Eye = null;
     public GameObject Split = null;
+    public GameObject Crawler = null;
+    public GameObject Scarecrow = null;
+    public GameObject Capsule;
+
+    private const int CrawlerCount = 5;
+    private const int ScarecrowCount = 1;
 
 
 	private BasicMazeGenerator mMazeGenerator = null;
@@ -66,6 +72,9 @@ public class MazeSpawner : MonoBehaviour {
                 mMazeGenerator = new DivisionMazeGenerator(Rows, Columns);
                 break;
         }
+
+        int scarecrowAdded = 0;
+        int crawlerAdded = 0;
         mMazeGenerator.GenerateMaze();
         for (int row = 0; row < Rows; row++)
         {
@@ -98,7 +107,6 @@ public class MazeSpawner : MonoBehaviour {
                 {
                     tmp = Instantiate(Wall, new Vector3(x, 0, z - CellHeight / 2) + Wall.transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;// back
                     tmp.transform.parent = transform;
-
                 }
                 if (cell.IsKey)
                 {
@@ -136,7 +144,7 @@ public class MazeSpawner : MonoBehaviour {
                     tmp = Instantiate(SD, new Vector3(x, ITEM_HEIGHT, z), Quaternion.Euler(-90, 0, 0)) as GameObject;
                     tmp.transform.parent = transform;
                 }
-                if (random == 4 && Lamp != null)
+                if ((random == 4 || random == 11) && Lamp != null)
                 {
                     tmp = Instantiate(Lamp, new Vector3(x, 2.5f, z), Quaternion.Euler(0, 0, 0)) as GameObject;
                     tmp.transform.parent = transform;
@@ -162,6 +170,19 @@ public class MazeSpawner : MonoBehaviour {
                     tmp.transform.parent = transform;
                 }
 
+                if (random > 9 && Crawler != null && crawlerAdded < CrawlerCount)
+                {
+                    crawlerAdded++;
+                    tmp = Instantiate(Crawler, new Vector3(x, 0, z), Quaternion.Euler(0, 0, 0)) as GameObject;
+                    tmp.transform.parent = transform;
+                    var comp = tmp.GetComponent<CrawlerMovement>();
+                    comp.Init(mMazeGenerator, column, row, Capsule);
+                }
+                if (random == 10 && Scarecrow != null && scarecrowAdded < ScarecrowCount)
+                {
+                    tmp = Instantiate(Scarecrow, new Vector3(x, ITEM_HEIGHT, z), Quaternion.Euler(0, 0, 0)) as GameObject;
+                    tmp.transform.parent = transform;
+                }
             }
         }
         //if (Pillar != null)
@@ -185,7 +206,7 @@ public class MazeSpawner : MonoBehaviour {
                 {
                     float x = column * (CellWidth + (AddGaps ? .2f : 0));
                     float z = row * (CellHeight + (AddGaps ? .2f : 0));
-                    GameObject tmp = Instantiate(Door, new Vector3(x + 45, 2, 46), Quaternion.Euler(0, 180, 0)) as GameObject;
+                    GameObject tmp = Instantiate(Door, new Vector3(x + 20, 2, -3), Quaternion.Euler(0, 0, 0)) as GameObject;
                     tmp.transform.parent = transform;
                 }
             }

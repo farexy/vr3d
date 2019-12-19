@@ -29,13 +29,17 @@ public abstract class BasicMazeGenerator {
 		}
 	}
 
+	public MazeCell[,] GetMaze()
+	{
+		return mMaze;
+	}
+
 	public abstract void GenerateMaze();
 
 	public MazeCell GetMazeCell(int row, int column){
 		if (row >= 0 && column >= 0 && row < mMazeRows && column < mMazeColumns) {
 			return mMaze[row,column];
 		}else{
-			Debug.Log(row+" "+column);
 			throw new System.ArgumentOutOfRangeException();
 		}
 	}

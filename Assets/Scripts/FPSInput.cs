@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class FPSInput : MonoBehaviour
 {
     [SerializeField] private string itemName;
-    public float speed = 6.0f;
+    public const float speed = 6.0f;
     private CharacterController _charController;
     public float gravity = -9.8f;
 

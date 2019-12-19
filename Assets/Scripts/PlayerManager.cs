@@ -1,35 +1,32 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
-public class PlayerManager : MonoBehaviour, IGameManager {
+public class PlayerManager : MonoBehaviour, IGameManager
+{
+    public GameObject HealthBar;
+    private Image _hb;
+
     public ManagerStatus status { get; private set; }
 
-    public int health { get; private set; }
-    public int maxHealth { get; private set; }
+    public float health { get; private set; }
+    public float maxHealth = 100;
 
     public void Startup()
     {
         Debug.Log("Player manager starting...");
 
-        health = 50;
-        maxHealth = 100;
+        health = maxHealth;
 
         status = ManagerStatus.Started;
+        _hb = HealthBar.GetComponent<Image>();
     }
 
     public void ChangeHealth(int value)
     {
-        health += value;
-        if (health > maxHealth)
-        {
-            health = maxHealth;
-        }
-        else if (health < 0)
-        {
-            health = 0;
-        }
-        Debug.Log("Heakth: " + health + "/" + maxHealth);
+        health -= value;
+        _hb.fillAmount = health / maxHealth;
     }
-	
 }

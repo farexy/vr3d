@@ -20,4 +20,5 @@ public class MazeCell {
 	public bool IsGoal = false;
     public bool IsDoor = false;
     public bool IsKey = false;
+    public bool IsDeadEnd = false;
 }

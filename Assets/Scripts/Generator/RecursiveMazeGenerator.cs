@@ -54,7 +54,7 @@ public class RecursiveMazeGenerator : BasicMazeGenerator {
 				GetMazeCell(row,column).WallBack = true;
 			}
 
-			if(movesAvailableCount == 0 && !GetMazeCell(row,column).IsVisited){
+			if(movesAvailableCount == 0 && !GetMazeCell(row, column).IsVisited){
                 if (countForKey == 4)
                     GetMazeCell(row, column).IsKey = true;
                 else
