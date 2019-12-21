@@ -57,7 +57,6 @@ public class FPSInput : MonoBehaviour
             mAudioSource.PlayOneShot(CoinSound);
         }
         itemName = item.name.Substring(0, item.name.IndexOf('('));
-        Debug.Log("Item Collected " + itemName);
         Managers.Inventory.AddItem(itemName);
         Destroy(item);
     }

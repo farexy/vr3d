@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour, IGameManager
 {
     public GameObject HealthBar;
+    
+    public GameObject EndGameImg;
     private Image _hb;
 
     public ManagerStatus status { get; private set; }
@@ -28,5 +30,17 @@ public class PlayerManager : MonoBehaviour, IGameManager
     {
         health -= value;
         _hb.fillAmount = health / maxHealth;
+        if (health <= 0)
+        {
+            StartCoroutine(EndGame());
+        }
+    }
+
+    private IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(1f);
+        EndGameImg.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        Application.Quit();
     }
 }

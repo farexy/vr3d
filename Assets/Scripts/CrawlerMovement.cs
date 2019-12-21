@@ -255,4 +255,9 @@ public class CrawlerMovement : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.tag);
+    }
 }

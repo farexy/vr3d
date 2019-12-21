@@ -21,7 +21,6 @@ public class InventoryManager : MonoBehaviour, IGameManager {
         {
             itemDisplay += item.Key + "(" + item.Value + ") ";
         }
-        Debug.Log(itemDisplay);
     }
 
     public void AddItem(string name)
