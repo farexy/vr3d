@@ -36,11 +36,17 @@ public class CrawlerMovement : MonoBehaviour
     {
         Rotate();
         SearchForPlayer();
+        Move();
+    }
+
+    private void Move()
+    {
         Vector3 p = Vector3.MoveTowards(transform.position, _target, speed * Time.deltaTime );
         _rigidbody.MovePosition(p);
         if (Vector3.Distance(transform.position, _target) < 0.001f)
         {
-            var b = GetNextPoint();
+            GetNextPoint();
+            _attack = false;
         }
     }
 
@@ -113,17 +119,19 @@ public class CrawlerMovement : MonoBehaviour
             Debug.Log(_column +":"+_row);
         }
 
+        return DateTime.Now.Millisecond % 2 == 0
+            ? GetNext1(cell)
+            : GetNext2(cell);
+    }
+
+    private bool GetNext1(MazeCell cell)
+    {
         if (_direction == Direction.Start || _direction == Direction.Right)
         {
             if (!cell.WallFront)
             {
                 _row++;
                 _direction = Direction.Front;
-            }
-            else if (!cell.WallBack)
-            {
-                _row--;
-                _direction = Direction.Back;
             }
             else if (!cell.WallRight)
             {
@@ -134,6 +142,11 @@ public class CrawlerMovement : MonoBehaviour
             {
                 _column--;
                 _direction = Direction.Left;
+            }
+            else if (!cell.WallBack)
+            {
+                _row--;
+                _direction = Direction.Back;
             }
 
             return SetTarget();
@@ -207,6 +220,115 @@ public class CrawlerMovement : MonoBehaviour
             {
                 _row--;
                 _direction = Direction.Back;
+            }
+            else if (!cell.WallFront)
+            {
+                _row++;
+                _direction = Direction.Front;
+            }
+
+            return SetTarget();
+        }
+
+        return false;
+    }
+
+    private bool GetNext2(MazeCell cell)
+    {
+        if (_direction == Direction.Start || _direction == Direction.Right)
+        {
+            if (!cell.WallRight)
+            {
+                _column++;
+                _direction = Direction.Right;
+            }
+            else if (!cell.WallBack)
+            {
+                _row--;
+                _direction = Direction.Back;
+            }
+            else if (!cell.WallFront)
+            {
+                _row++;
+                _direction = Direction.Front;
+            }
+            else if (!cell.WallLeft)
+            {
+                _column--;
+                _direction = Direction.Left;
+            }
+
+            return SetTarget();
+        }
+        
+        if (_direction == Direction.Left)
+        {
+            if (!cell.WallBack)
+            {
+                _row--;
+                _direction = Direction.Back;
+            }
+            else if (!cell.WallFront)
+            {
+                _row++;
+                _direction = Direction.Front;
+            }
+            else if (!cell.WallLeft)
+            {
+                _column--;
+                _direction = Direction.Left;
+            }
+            else if (!cell.WallRight)
+            {
+                _column++;
+                _direction = Direction.Right;
+            }
+
+            return SetTarget();
+        }
+
+        if (_direction == Direction.Front)
+        {
+            if (!cell.WallFront)
+            {
+                _row++;
+                _direction = Direction.Front;
+            }
+            else if (!cell.WallRight)
+            {
+                _column++;
+                _direction = Direction.Right;
+            }
+            else if (!cell.WallLeft)
+            {
+                _column--;
+                _direction = Direction.Left;
+            }
+            else if (!cell.WallBack)
+            {
+                _row--;
+                _direction = Direction.Back;
+            }
+            
+            return SetTarget();
+        }
+
+        if (_direction == Direction.Back)
+        {
+            if (!cell.WallBack)
+            {
+                _row--;
+                _direction = Direction.Back;
+            }
+            else if (!cell.WallRight)
+            {
+                _column++;
+                _direction = Direction.Right;
+            }
+            else if (!cell.WallLeft)
+            {
+                _column--;
+                _direction = Direction.Left;
             }
             else if (!cell.WallFront)
             {
