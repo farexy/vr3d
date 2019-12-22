@@ -70,7 +70,7 @@ public class CrawlerMovement : MonoBehaviour
 
     private void SearchForPlayer()
     {
-        if (!_attack && Vector3.Distance(transform.position, _player.position) < 2f * MazeSpawner.CellWidth)
+        if (!_attack && Vector3.Distance(transform.position, _player.position) < 1f * MazeSpawner.CellWidth)
         {
             _attack = true;
             _column = (int) Math.Abs(_player.position.x / MazeSpawner.CellHeight);
@@ -89,7 +89,7 @@ public class CrawlerMovement : MonoBehaviour
             _animator.SetTrigger("attack");
             Attack();
         }
-        if(_attack && Vector3.Distance(transform.position, _player.position) >= 2f * MazeSpawner.CellHeight)
+        if(_attack && Vector3.Distance(transform.position, _player.position) >= 1f * MazeSpawner.CellHeight)
         {
             _attack = false;
             _animator.SetTrigger("crawl");
@@ -366,13 +366,9 @@ public class CrawlerMovement : MonoBehaviour
         return true;
     }
 
-    private void Hit()
-    {
-        StartCoroutine(Death());
-    }
-
     private IEnumerator Death()
     {
+        _target = transform.position;
         _audio.PlayOneShot(DamageSound);
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
@@ -380,6 +376,9 @@ public class CrawlerMovement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
+        if (other.CompareTag("Bomb"))
+        {
+            StartCoroutine(Death());
+        }
     }
 }

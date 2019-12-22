@@ -22,6 +22,7 @@ namespace DefaultNamespace
         private void Update()
         {
             //Detect when there is a mouse click
+            // TODO oculus if (OVRInput.Get(OVRInput.Button.One))
             if (Input.GetMouseButton(0))
             {
                 if (DateTime.UtcNow - _prevAttack < TimeSpan.FromMilliseconds(500))
@@ -30,9 +31,10 @@ namespace DefaultNamespace
                 }
                 _prevAttack = DateTime.UtcNow;
                 //Create a ray from the Mouse click position
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+                // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out var hit))
+                if (Physics.Raycast(ray, out var hit) && Managers.Inventory.RemoveItem())
                 {
                     StartCoroutine(SimulateProjectile(hit.collider.transform));
                     if (hit.collider.gameObject.CompareTag("Crawler"))

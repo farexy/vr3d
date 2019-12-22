@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class InventoryManager : MonoBehaviour, IGameManager {
     public ManagerStatus status { get; private set; }
@@ -14,15 +15,6 @@ public class InventoryManager : MonoBehaviour, IGameManager {
         status = ManagerStatus.Started;
     }
 
-    private void DisplayItems()
-    {
-        string itemDisplay = "Item: ";
-        foreach (KeyValuePair<string, int> item in _items)
-        {
-            itemDisplay += item.Key + "(" + item.Value + ") ";
-        }
-    }
-
     public void AddItem(string name)
     {
         if (_items.ContainsKey(name))
@@ -33,8 +25,26 @@ public class InventoryManager : MonoBehaviour, IGameManager {
         {
             _items[name] = 1;
         }
-        
-        DisplayItems();
+    }
+
+    public bool RemoveItem()
+    {
+        // TODO oculus
+        return true;
+        if (_items.Count == 0)
+        {
+            return false;
+        }
+        var item = _items.First();
+        if (item.Value == 1)
+        {
+            _items.Remove(item.Key);
+        }
+        else
+        {
+            _items[item.Key] -= 1;
+        }
+        return true;
     }
 
     public List<string> GetItemList()
