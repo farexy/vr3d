@@ -22,6 +22,7 @@ public class FPSInput : MonoBehaviour
         _charController = GetComponent<CharacterController>();
         mRigidBody = GetComponent<Rigidbody>();
         mAudioSource = GetComponent<AudioSource>();
+        GetComponent<Renderer>().enabled = false;
     }
 
     // Update is called once per frame

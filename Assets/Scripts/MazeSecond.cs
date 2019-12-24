@@ -164,7 +164,7 @@ public class MazeSecond : MonoBehaviour {
                 {
                     float x = column * (CellWidth + (AddGaps ? .2f : 0));
                     float z = row * (CellHeight + (AddGaps ? .2f : 0));
-                    GameObject tmp = Instantiate(Door, new Vector3(x + 20, 2, -3), Quaternion.Euler(0, 0, 0)) as GameObject;
+                    GameObject tmp = Instantiate(Door, new Vector3(x + 20, 2, -2.2f), Quaternion.Euler(0, 0, 0)) as GameObject;
                     tmp.transform.parent = transform;
                 }
             }

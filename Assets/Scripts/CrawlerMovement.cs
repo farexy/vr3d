@@ -41,12 +41,12 @@ public class CrawlerMovement : MonoBehaviour
 
     private void Move()
     {
-        Vector3 p = Vector3.MoveTowards(transform.position, _target, speed * Time.deltaTime );
+        var speedCoeff = _attack ? 2 : 1;
+        Vector3 p = Vector3.MoveTowards(transform.position, _target, speed * speedCoeff * Time.deltaTime);
         _rigidbody.MovePosition(p);
         if (Vector3.Distance(transform.position, _target) < 0.001f)
         {
             GetNextPoint();
-            _attack = false;
         }
     }
 
@@ -70,6 +70,13 @@ public class CrawlerMovement : MonoBehaviour
 
     private void SearchForPlayer()
     {
+        if (_attack && Vector3.Distance(transform.position, _player.position) > 0.5f * MazeSpawner.CellWidth)
+        {
+            _column = (int) Math.Abs(_player.position.x / MazeSpawner.CellHeight);
+            _row = (int) Math.Abs(_player.position.z / MazeSpawner.CellWidth);
+            SetTarget();
+            _target = new Vector3(_player.position.x, 0.1f, _player.position.z);
+        }
         if (!_attack && Vector3.Distance(transform.position, _player.position) < 1f * MazeSpawner.CellWidth)
         {
             _attack = true;
@@ -102,7 +109,7 @@ public class CrawlerMovement : MonoBehaviour
         if (_audio != null && AttackSound != null && !_audio.isPlaying)
         {
             _audio.PlayOneShot(AttackSound);
-            Managers.Player.ChangeHealth(10);
+            Managers.Player.ChangeHealth(20);
         }
         
     }

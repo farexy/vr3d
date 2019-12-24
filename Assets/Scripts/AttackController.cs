@@ -11,11 +11,16 @@ namespace DefaultNamespace
         public float gravity = 9.8f;
 
         public GameObject Projectile;
+        public GameObject Explosion;
+        public AudioClip ExplosionSound;
+        
+        private AudioSource _audio;
         
         Vector3 m_DistanceFromCamera;
 
         void Start()
         {
+            _audio = GetComponent<AudioSource>();
             m_DistanceFromCamera = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z - 1);
         }
 
@@ -77,8 +82,17 @@ namespace DefaultNamespace
                 elapse_time += Time.deltaTime;
                 yield return null;
             }
-
             Destroy(projectile);
+
+            var explosion = Instantiate(Explosion, pTr.position, Quaternion.identity) as GameObject;
+            explosion.transform.localScale *= 1.5f;
+
+            _audio.PlayOneShot(ExplosionSound);
+            var particles = explosion.GetComponent<ParticleSystem>();
+            particles.Play();
+            yield return new WaitWhile(() => particles.isPlaying);
+            
+            Destroy(explosion);
         }
     }
 }
