@@ -13,6 +13,7 @@ public class InventoryManager : MonoBehaviour, IGameManager {
         _items = new Dictionary<string, int>();
 
         status = ManagerStatus.Started;
+        _items.Add("BombBall", 5);
     }
 
     public void AddItem(string name)
@@ -29,8 +30,6 @@ public class InventoryManager : MonoBehaviour, IGameManager {
 
     public bool RemoveItem()
     {
-        // TODO oculus
-        return true;
         if (_items.Count == 0)
         {
             return false;

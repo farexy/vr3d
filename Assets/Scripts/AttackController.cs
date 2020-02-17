@@ -27,8 +27,8 @@ namespace DefaultNamespace
         private void Update()
         {
             //Detect when there is a mouse click
-            // TODO oculus if (OVRInput.Get(OVRInput.Button.One))
-            if (Input.GetMouseButton(0))
+            if (OVRInput.Get(OVRInput.Button.One))
+            //if (Input.GetMouseButton(0))
             {
                 if (DateTime.UtcNow - _prevAttack < TimeSpan.FromMilliseconds(500))
                 {
